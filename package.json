@@ -4,5 +4,8 @@
   "main": "service/service.js",
   "repository": "https://github.com/coderade/nodejs-msb-slack-bot.git",
   "author": "Valdeci Gomes <valdeci@outlook.my>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
 }
