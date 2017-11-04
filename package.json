@@ -6,6 +6,11 @@
   "author": "Valdeci Gomes <valdeci@outlook.my>",
   "license": "MIT",
   "dependencies": {
+    "@slack/client": "^3.14.1",
     "express": "^4.16.2"
+  },
+  "devDependencies": {
+    "eslint": "^4.10.0",
+    "eslint-plugin-import": "^2.8.0"
   }
 }
