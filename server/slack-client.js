@@ -14,23 +14,38 @@ let addAuthenticatedHandler = (rtm, handler) => {
 };
 
 let handleOnMessage = (message) => {
-    nlp.ask(message.text, (err, res) => {
-        if (err) {
-            console.log(err);
-        }
-        if (!res.intent) {
-            return rtm.sendMessage("Sorry, I dont't know what you are talking about.", message.channel);
-        }
-        else if (res.intent[0].value === 'time' && res.location) {
-            return rtm.sendMessage(`I dont't yet know the time in ${res.location[0].value}`, message.channel);
-        }
-        else {
-            console.log(res);
-            return rtm.sendMessage("Sorry, I dont't know what you are talking about.", message.channel);
-        }
-    });
 
+    if (message.text.toLowerCase().includes('siri')) {
+        nlp.ask(message.text, (err, res) => {
+            if (err) {
+                console.log(err);
+            }
 
+            try {
+                if (!res.intent || !res.intent[0] || !res.intent[0].value) {
+                    throw new Error('Could not extract the intent');
+                }
+
+                const intent = require(`./intents/${res.intent[0].value}Intent`);
+
+                intent.process(res, function (error, response) {
+                    if (error) {
+                        console.log(error.message);
+                        return;
+                    }
+
+                    return rtm.sendMessage(response, message.channel);
+                });
+
+            } catch (err) {
+                console.log(err);
+                console.log(res);
+                rtm.sendMessage("Sorry, I dont't know what you are talking about.", message.channel);
+            }
+
+        });
+
+    }
 };
 
 module.exports.init = function slackClient(bot_token, logLevel, nlpClient) {
