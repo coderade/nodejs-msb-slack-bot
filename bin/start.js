@@ -1,5 +1,3 @@
-'use strict';
-
 const slackClient = require('../server/slack-client');
 const service = require('../server/service');
 const http = require('http');
