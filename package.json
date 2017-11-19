@@ -7,7 +7,8 @@
   "license": "MIT",
   "dependencies": {
     "@slack/client": "^3.14.1",
-    "express": "^4.16.2"
+    "express": "^4.16.2",
+    "superagent": "^3.8.1"
   },
   "devDependencies": {
     "eslint": "^4.10.0",
