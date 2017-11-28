@@ -4,6 +4,7 @@ const RTM_EVENTS = require('@slack/client').RTM_EVENTS;
 
 let rtm = null;
 let nlp = null;
+let registry = null;
 
 let handleOnAuthenticated = (rtmStartData) => {
     console.log(`Logged in as ${rtmStartData.self.name} of team ${rtmStartData.team.name}, but not connected to a channel yet`);
@@ -28,7 +29,7 @@ let handleOnMessage = (message) => {
 
                 const intent = require(`./intents/${res.intent[0].value}Intent`);
 
-                intent.process(res, function (error, response) {
+                intent.process(res, registry, function (error, response) {
                     if (error) {
                         console.log(error.message);
                         return;
@@ -48,9 +49,10 @@ let handleOnMessage = (message) => {
     }
 };
 
-module.exports.init = function slackClient(bot_token, logLevel, nlpClient) {
+module.exports.init = function slackClient(bot_token, logLevel, nlpClient, serviceRegistry) {
     rtm = new RtmClient(bot_token, {logLevel: logLevel});
     nlp = nlpClient;
+    registry = serviceRegistry;
     addAuthenticatedHandler(rtm, handleOnAuthenticated);
     rtm.on(RTM_EVENTS.MESSAGE, handleOnMessage);
     return rtm;

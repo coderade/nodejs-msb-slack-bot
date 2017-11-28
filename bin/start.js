@@ -9,7 +9,9 @@ const witClient = require('../server/wit-client')(witToken);
 const slackToken = process.env.BOT_API_TOKEN;
 const slackLogLevel = process.env.SLACK_LOG_LEVEL || 'verbose';
 
-const rtm = slackClient.init(slackToken, slackLogLevel, witClient);
+const serviceRegistry = service.get('serviceRegistry');
+
+const rtm = slackClient.init(slackToken, slackLogLevel, witClient, serviceRegistry);
 rtm.start();
 
 slackClient.addAuthenticatedHandler(rtm, () => server.listen(3000));
