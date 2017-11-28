@@ -3,8 +3,6 @@ const service = require('../server/service');
 const http = require('http');
 const server = http.createServer(service);
 
-
-
 const witToken = process.env.WIT_TOKEN;
 const witClient = require('../server/wit-client')(witToken);
 
