@@ -17,5 +17,5 @@ rtm.start();
 slackClient.addAuthenticatedHandler(rtm, () => server.listen(3000));
 
 server.on('listening', function () {
-    console.log(`SIRI is listening in ${server.address().port} in ${service.get('env')} mode.`);
+    console.log(`CODEBOT is listening in ${server.address().port} in ${service.get('env')} mode.`);
 });

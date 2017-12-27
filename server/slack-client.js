@@ -16,7 +16,7 @@ let addAuthenticatedHandler = (rtm, handler) => {
 
 let handleOnMessage = (message) => {
 
-    if (message.text.toLowerCase().includes('siri')) {
+    if (message.text.toLowerCase().includes('codebot')) {
         nlp.ask(message.text, (err, res) => {
             if (err) {
                 console.log(err);
