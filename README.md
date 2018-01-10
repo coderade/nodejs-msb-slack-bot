@@ -60,14 +60,30 @@ To run this application, an API key for the
 
 After you create your API key for each one of these services you will need to pass them as environment variables.
 
-I use the [WebStorm](https://www.jetbrains.com/webstorm) IDE to
-debug my Node.js applications, which you can follow this
-[tutorial](https://www.jetbrains.com/help/webstorm/run-debug-configuration-node-js.html) to set Node.js environment variables in this IDE.
+This project uses the [dotenv](https://github.com/motdotla/dotenv) module to load the environment variables, so on the 
+root directory of the project use the following command to copy the env example file to the `.env` file that will be 
+used to load the environment variables.
 
-Otherwise you can pass the SLACK Bot and Wit.ai API keys directly on your command line.
+`cp .env-example .env`
+
+Then, you can edit the `BOT_API_TOKEN` and `WIT_TOKEN` environment variables with your generated keys, 
+like the following:
+
+```docker
+BOT_API_TOKEN=00000000000000000000000000000000
+WIT_TOKEN=00000000000000000000000000000000
+```
+
+You can also pass the environment variables on your IDE. 
+I use the [WebStorm](https://www.jetbrains.com/webstorm) IDE to debug my Node.js applications, which you can follow this
+[tutorial](https://www.jetbrains.com/help/webstorm/run-debug-configuration-node-js.html) to set Node.js environment 
+variables in this IDE.
+
+Otherwise, if you don't want to use the `dot-env` module or a IDE you can pass the SLACK Bot and Wit.ai API keys 
+directly on your command line.
 
 To do this, on the root directory of the project run the following command
-passing your `WIT_TOKEN` and `TIMEZONE_API_KEY` as env parameters:
+passing your `WIT_TOKEN` and `BOT_API_TOKEN` as env parameters:
 
 `WIT_TOKEN=<WIT_TOKEN> BOT_API_TOKEN=<YOUR SLACK BOT API KEY> node bin/start.js`
 
