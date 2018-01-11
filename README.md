@@ -70,8 +70,8 @@ Then, you can edit the `BOT_API_TOKEN` and `WIT_TOKEN` environment variables wit
 like the following:
 
 ```docker
-BOT_API_TOKEN=00000000000000000000000000000000
-WIT_TOKEN=00000000000000000000000000000000
+BOT_API_TOKEN=0000-0000-0000-0000-0000
+WIT_TOKEN=0000-0000-0000-0000-0000
 ```
 
 You can also pass the environment variables on your IDE. 

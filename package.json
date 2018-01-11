@@ -5,6 +5,9 @@
   "repository": "https://github.com/coderade/nodejs-msb-slack-bot.git",
   "author": "Valdeci Gomes <valdeci@outlook.my>",
   "license": "MIT",
+  "scripts": {
+    "test": "nyc mocha --recursive test"
+  },
   "dependencies": {
     "@slack/client": "^3.14.1",
     "dotenv": "^4.0.0",
@@ -13,6 +16,10 @@
   },
   "devDependencies": {
     "eslint": "^4.10.0",
-    "eslint-plugin-import": "^2.8.0"
+    "eslint-plugin-import": "^2.8.0",
+    "mocha": "^4.1.0",
+    "nyc": "^11.4.1",
+    "should": "^13.2.0",
+    "supertest": "^3.0.0"
   }
 }
