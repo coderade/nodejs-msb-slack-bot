@@ -6,7 +6,8 @@
   "author": "Valdeci Gomes <valdeci@outlook.my>",
   "license": "MIT",
   "scripts": {
-    "test": "nyc mocha --recursive test"
+    "test": "nyc mocha --recursive test",
+    "start": "node bin/start.js"
   },
   "dependencies": {
     "@slack/client": "^3.14.1",

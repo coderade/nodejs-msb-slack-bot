@@ -1,6 +1,8 @@
-const should = require('should');
+require('should');
+
+const config = require('../../config');
 const request = require('supertest');
-const service = require('../../server/service');
+const service = require('../../server/service')(config);
 
 describe('The express service', () => {
     describe('PUT /foo', () => {

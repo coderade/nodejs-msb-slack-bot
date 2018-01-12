@@ -1,19 +1,18 @@
-require('dotenv').config();
+const config = require('../config');
 
 const slackClient = require('../server/slack-client');
-const service = require('../server/service');
+const service = require('../server/service')(config);
 const http = require('http');
 const server = http.createServer(service);
 
-const witToken = process.env.WIT_TOKEN;
-const witClient = require('../server/wit-client')(witToken);
+const WitClient = require('../server/wit-client');
+const witClient = new WitClient(config.witToken);
 
-const slackToken = process.env.BOT_API_TOKEN;
-const slackLogLevel = process.env.SLACK_LOG_LEVEL || 'verbose';
+const slackLogLevel = config.slackLogLevel|| 'verbose';
 
 const serviceRegistry = service.get('serviceRegistry');
 
-const rtm = slackClient.init(slackToken, slackLogLevel, witClient, serviceRegistry);
+const rtm = slackClient.init(config.slackToken, slackLogLevel, witClient, serviceRegistry);
 rtm.start();
 
 slackClient.addAuthenticatedHandler(rtm, () => server.listen(3000));
