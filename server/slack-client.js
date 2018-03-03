@@ -3,10 +3,11 @@ const CLIENT_EVENTS = require('@slack/client').CLIENT_EVENTS;
 const RTM_EVENTS = require('@slack/client').RTM_EVENTS;
 
 class slackClient {
-    constructor(slackToken, logLevel, nlp, registry) {
+    constructor(slackToken, logLevel, nlp, registry, log) {
         this._rtm = new RtmClient(slackToken, {logLevel: logLevel});
         this._nlp = nlp;
         this._registry = registry;
+        this._log = log;
 
         this._addAuthenticatedHandler(this._handleOnAuthenticated);
 
@@ -14,7 +15,7 @@ class slackClient {
     }
 
     _handleOnAuthenticated(rtmStartData) {
-        console.log(`Logged in as ${rtmStartData.self.name} of team ${rtmStartData.team.name}, but not connected to a channel yet`);
+        this._log.info(`Logged in as ${rtmStartData.self.name} of team ${rtmStartData.team.name}, but not connected to a channel yet`);
     }
 
     _addAuthenticatedHandler(handler) {
@@ -25,7 +26,7 @@ class slackClient {
         if (message.text.toLowerCase().includes('codebot')) {
             this._nlp.ask(message.text, (err, res) => {
                 if (err) {
-                    console.log(err);
+                    this._log.error(err);
                 }
 
                 try {
@@ -35,9 +36,9 @@ class slackClient {
 
                     const intent = require(`./intents/${res.intent[0].value}Intent`);
 
-                    intent.process(res, this._registry, (error, response) => {
+                    intent.process(res, this._registry, this._log, (error, response) => {
                         if (error) {
-                            console.log(error.message);
+                            this._log.error(error.message);
                             return;
                         }
 
@@ -45,8 +46,8 @@ class slackClient {
                     });
 
                 } catch (err) {
-                    console.log(err);
-                    console.log(res);
+                    this._log.error(err);
+                    this._log.error(res);
                     this._rtm.sendMessage(`Sorry, I dont't know what you are talking about.`, message.channel);
                 }
 

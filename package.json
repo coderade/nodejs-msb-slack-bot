@@ -6,11 +6,12 @@
   "author": "Valdeci Gomes <valdeci@outlook.my>",
   "license": "MIT",
   "scripts": {
-    "test": "nyc mocha --recursive test --exit",
-    "start": "node bin/start.js"
+    "test": "NODE_ENV=test eslint server bin && nyc mocha --recursive test --exit",
+    "start": "node bin/start.js | ./node_modules/.bin/bunyan"
   },
   "dependencies": {
     "@slack/client": "^3.14.1",
+    "bunyan": "^1.8.12",
     "dotenv": "^4.0.0",
     "express": "^4.16.2",
     "superagent": "^3.8.1"
