@@ -12,7 +12,7 @@ module.exports.process = (intentData, registry, cb) => {
     if (!service)
         return cb(false, 'No service available');
 
-    request(`http://${service.ip}:${service.port}/service/${value}`, (err, res) => {
+    request(`http://${service.ip}:${service.port}/service/${intentData.intent[0].value}`, (err, res) => {
         if (err || res.statusCode !== 200 || !res.body.result) {
             console.log(err);
 

@@ -45,7 +45,7 @@ class ServiceRegistry {
         for (let key in this._services) {
             //Means we haven't heard from this service for 30 seconds.
             if (this._services[key].timestamp + this._timeout < now) {
-                console.log(`Removed service for intent ${this._services[key].intent}`)
+                console.log(`Removed service for intent ${this._services[key].intent}`);
                 delete this._services[key];
             }
         }
