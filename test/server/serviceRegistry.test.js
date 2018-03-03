@@ -22,7 +22,7 @@ describe('ServiceRegistry', () => {
         });
 
 
-        it('should update aservice', () => {
+        it('should update a service', () => {
             const serviceRegistry = new ServiceRegistry(30);
             serviceRegistry.add('test', '127.0.0.1', 1994);
             const testIntent1 = serviceRegistry.get('test');
