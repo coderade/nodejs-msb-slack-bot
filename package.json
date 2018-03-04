@@ -9,13 +9,12 @@
   "author": "Valdeci Gomes <valdeci@outlook.my>",
   "license": "MIT",
   "scripts": {
-    "test": "NODE_ENV=test eslint server bin && nyc mocha --recursive test --exit",
+    "test": "snyk test && NODE_ENV=test eslint server bin && nyc mocha --recursive test --exit",
     "start": "node bin/start.js | ./node_modules/.bin/bunyan"
   },
   "engines": {
     "node": "9.0.0"
   },
-
   "dependencies": {
     "@slack/client": "^3.14.1",
     "bunyan": "^1.8.12",
@@ -29,6 +28,7 @@
     "mocha": "^4.1.0",
     "nyc": "^11.4.1",
     "should": "^13.2.0",
-    "supertest": "^3.0.0"
+    "supertest": "^3.0.0",
+    "snyk": "^1.69.10"
   }
 }
