@@ -15,7 +15,6 @@
   "engines": {
     "node": "9.0.0"
   },
-
   "dependencies": {
     "@slack/client": "^3.14.1",
     "bunyan": "^1.8.12",
