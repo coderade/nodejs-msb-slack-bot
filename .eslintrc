@@ -10,11 +10,12 @@
   },
   "env": {
     "es6": true,
-    "node": true
+    "node": true,
+    "mocha": true
   },
   "rules": {
     "quotes": 0,
-    "no-console": 0,
+    "no-console": 1,
     "no-debugger": 1,
     "no-var": 1,
     "semi": [1, "always"],

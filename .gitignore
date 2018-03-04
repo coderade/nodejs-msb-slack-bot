@@ -25,3 +25,6 @@ yarn-error.log*
 
 # Environment file
 .env
+
+# Testing files
+.nyc_output
