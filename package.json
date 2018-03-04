@@ -2,13 +2,20 @@
   "name": "nodejs-msb-slack-bot",
   "version": "1.0.0",
   "main": "service/service.js",
-  "repository": "https://github.com/coderade/nodejs-msb-slack-bot.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/coderade/nodejs-msb-slack-bot.git"
+  },
   "author": "Valdeci Gomes <valdeci@outlook.my>",
   "license": "MIT",
   "scripts": {
     "test": "NODE_ENV=test eslint server bin && nyc mocha --recursive test --exit",
     "start": "node bin/start.js | ./node_modules/.bin/bunyan"
   },
+  "engines": {
+    "node": "9.0.0"
+  },
+
   "dependencies": {
     "@slack/client": "^3.14.1",
     "bunyan": "^1.8.12",
