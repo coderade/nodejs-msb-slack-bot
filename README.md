@@ -10,6 +10,10 @@ the [Wit.ai](https://wit.ai/) service to works with natural language processing.
 This way, to use this project we will need to create a Slack channel and create a Bot user app and you will 
 also need to create a Wit.ai app to handle the bot questions intents.
 
+## Status
+
+[ ![Codeship Status for coderade/nodejs-msb-slack-bot](https://app.codeship.com/projects/a16ebc70-0220-0136-a7cd-1e9c793cff7d/status?branch=master)](https://app.codeship.com/projects/280037)
+
 
 ### Creating the Slack Bot user
 
