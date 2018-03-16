@@ -77,12 +77,14 @@ This project uses the [dotenv](https://github.com/motdotla/dotenv) module to loa
 root directory of the project use the following command to copy the env example file to the `.env` file that will be 
 used to load the environment variables.
 
-`cp .env-example .env`
+```bash
+cp .env-example .env
+```
 
 Then, you can edit the `SLACK_BOT_TOKEN`, the `BOT_API_TOKEN` and the `WIT_TOKEN` environment variables with your 
 generated keys, like the following:
 
-```docker
+```bash
 SLACK_BOT_TOKEN=0000-0000-0000-0000-0000
 WIT_TOKEN=0000-0000-0000-0000-0000
 BOT_API_TOKEN=0000-0000-0000-0000-0000
@@ -103,7 +105,7 @@ passing your `SLACK_BOT_TOKEN`, the `BOT_API_TOKEN` and the `WIT_TOKEN` as env p
 
 If everything is ok, the console will show the following message:
 
-```
+```bash
 verbose: Attempting to connect via the RTM API
 verbose: Retrying url=https://slack.com/api/rtm.start
 verbose: rtm.start successful, attempting to open websocket URL
@@ -123,12 +125,34 @@ clients.
 The tests are on the `test` directory. To run all the the tests, the lint and check your coverage, run the following 
 command:
 
-```
+```bash
 npm test
 ```
 
 or directly on the root of the project use:
 
-```
+```bash
 NODE_ENV=test eslint server bin && nyc mocha --recursive test --exit
 ``` 
+
+## Deploying with [PM2](http://pm2.keymetrics.io/) 
+
+Download and install the pm2 using the npm.
+
+```bash
+npm install pm2 -g
+```
+
+Create your config file copying the `ecosystem.config.example.js` to your root dir, using the following command:
+
+```bash
+cp ecosystem.config.example.js ecosystem.config.js
+```  
+
+Run the PM2 commands [deploy](http://pm2.keymetrics.io/docs/usage/deployment/) and [setup](http://pm2.keymetrics.io/docs/usage/deployment/) 
+to prepare your host for the deployments and then deploy
+
+```bash
+pm2 deploy production setup
+```  
+

@@ -23,8 +23,9 @@ yarn-error.log*
 # IDE stuff
 .idea
 
-# Environment file
+# Environment files
 .env
+ecosystem.config.js
 
 # Testing files
 .nyc_output
