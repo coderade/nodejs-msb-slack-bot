@@ -8,6 +8,17 @@ module.exports = (config) => {
     service.set('serviceRegistry', serviceRegistry);
 
     service.put('/service/:intent/:port', (req, res, next) => {
+
+
+        let serviceToken = req.get('X-BOT-SERVICE-TOKEN');
+        if (req.get('X-BOT-API-TOKEN') !== config.botApiToken) {
+            return res.sendStatus(403);
+        }
+
+        if (!serviceToken ) {
+            return res.sendStatus(400);
+        }
+
         const serviceIntent = req.params.intent;
         const servicePort = req.params.port;
 
@@ -17,7 +28,7 @@ module.exports = (config) => {
             ? `[${req.connection.remoteAddress}]` : req.connection.remoteAddress;
 
 
-        serviceRegistry.add(serviceIntent, serviceIp, servicePort);
+        serviceRegistry.add(serviceIntent, serviceIp, servicePort, serviceToken);
 
         res.json({result: `${serviceIntent} at ${serviceIp}:${servicePort}`});
     });

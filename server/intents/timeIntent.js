@@ -13,13 +13,15 @@ module.exports.process = (intentData, registry, log, cb) => {
     if (!service)
         return cb(false, 'No service available');
 
-    request(`http://${service.ip}:${service.port}/service/${location}`, (err, res) => {
-        if (err || res.statusCode !== 200 || !res.body.result) {
-            log.error(err);
+    request(`http://${service.ip}:${service.port}/service/${location}`)
+        .set('X-BOT-SERVICE-TOKEN', service.accessToken)
+        .end((err, res) => {
+            if (err || res.statusCode !== 200 || !res.body.result) {
+                log.error(err);
 
-            return cb(false, `I had a problem finding out the time in ${location}`);
-        }
+                return cb(false, `I had a problem finding out the time in ${location}`);
+            }
 
-        return cb(false, `In ${location}, is now ${res.body.result}`);
-    });
+            return cb(false, `In ${location}, is now ${res.body.result}`);
+        });
 };

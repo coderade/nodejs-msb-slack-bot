@@ -79,11 +79,11 @@ used to load the environment variables.
 
 `cp .env-example .env`
 
-Then, you can edit the `BOT_API_TOKEN` and `WIT_TOKEN` environment variables with your generated keys, 
+Then, you can edit the `SLACK_BOT_TOKEN` and `WIT_TOKEN` environment variables with your generated keys, 
 like the following:
 
 ```docker
-BOT_API_TOKEN=0000-0000-0000-0000-0000
+SLACK_BOT_TOKEN=0000-0000-0000-0000-0000
 WIT_TOKEN=0000-0000-0000-0000-0000
 ```
 
@@ -96,9 +96,9 @@ Otherwise, if you don't want to use the `dot-env` module or a IDE you can pass t
 directly on your command line.
 
 To do this, on the root directory of the project run the following command
-passing your `WIT_TOKEN` and `BOT_API_TOKEN` as env parameters:
+passing your `WIT_TOKEN` and `SLACK_BOT_TOKEN` as env parameters:
 
-`WIT_TOKEN=<WIT_TOKEN> BOT_API_TOKEN=<YOUR SLACK BOT API KEY> node bin/start.js`
+`WIT_TOKEN=<WIT_TOKEN> SLACK_BOT_TOKEN=<YOUR SLACK BOT API KEY> node bin/start.js`
 
 If everything is ok, the console will show the following message:
 
