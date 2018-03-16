@@ -20,7 +20,8 @@
     "bunyan": "^1.8.12",
     "dotenv": "^4.0.0",
     "express": "^4.16.2",
-    "superagent": "^3.8.1"
+    "superagent": "^3.8.1",
+    "snyk": "^1.69.10"
   },
   "devDependencies": {
     "eslint": "^4.10.0",
@@ -28,7 +29,7 @@
     "mocha": "^4.1.0",
     "nyc": "^11.4.1",
     "should": "^13.2.0",
-    "supertest": "^3.0.0",
-    "snyk": "^1.69.10"
-  }
+    "supertest": "^3.0.0"
+  },
+  "snyk": true
 }
