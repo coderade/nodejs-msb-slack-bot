@@ -4,7 +4,7 @@ Slack Bot application developed in Node.js.
 
 ![SlackBot](doc/images/slackbot.png)
 
-The project is seted up with a basic express application, a bot using [Slack](https://slack.com/) and uses 
+The project is set up with a basic express application, a bot using [Slack](https://slack.com/) and uses 
 the [Wit.ai](https://wit.ai/) service to works with natural language processing.
 
 This way, to use this project we will need to create a Slack channel and create a Bot user app and you will 
