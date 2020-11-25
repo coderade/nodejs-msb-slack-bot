@@ -12,7 +12,11 @@ also need to create a Wit.ai app to handle the bot questions intents.
 
 ## Status
 
-[ ![Codeship Status for coderade/nodejs-msb-slack-bot](https://app.codeship.com/projects/a16ebc70-0220-0136-a7cd-1e9c793cff7d/status?branch=master)](https://app.codeship.com/projects/280037)
+[ ![Codeship Status for coderade/nodejs-msb-slack-bot](https://app.codeship.com/projects/a16ebc70-0220-0136-a7cd-1e9c793cff7d/status?branch=master)](https://app.codeship.com/projects/280037) ![Not Maintained](https://img.shields.io/badge/Maintenance%20Level-Not%20Maintained-yellow.svg)
+
+**This project has been developed in 2016 for the purpose of create a Slack bot application using most of Node.js and Es6, but is not maintained anymore. Some libraries are being updated using the [Dependabot](https://dependabot.com/) and [Snyk.io](https://snyk.io/) services, but no further tests are being done.**
+
+## Slack and Wit.ai settings
 
 
 ### Creating the Slack Bot user
