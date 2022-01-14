@@ -1,23 +1,35 @@
-require('should');
+const WitClient = require('../../server/wit-client');
+const request = require('superagent');
 
-const config = require('../../config');
-const WitClient = require('./../../server/wit-client');
+jest.mock('superagent');
 
-describe('witClient', () => {
-    describe('ask', () => {
-        it('should return a valid wit response', (done) => {
+describe('WitClient', () => {
+    let witClient;
 
-            const witClient = new WitClient(config.witToken);
-            witClient.ask('What is the current time in Curitiba', (err, response) => {
-                if (err)
-                    return done(err);
+    beforeEach(() => {
+        witClient = new WitClient('test-token');
+    });
 
-                response.intent[0].value.should.equal('time');
-                response.location[0].value.should.equal('Curitiba');
+    test('should send a request to Wit.ai', async () => {
+        const resMock = { statusCode: 200, body: { entities: 'test-entities' } };
+        request.get.mockImplementation(() => ({
+            set: jest.fn().mockReturnThis(),
+            query: jest.fn().mockReturnThis(),
+            end: jest.fn((callback) => callback(null, resMock))
+        }));
 
-                return done();
+        const response = await witClient.ask('test-message');
 
-            });
-        });
+        expect(response).toBe('test-entities');
+    });
+
+    test('should handle errors from Wit.ai', async () => {
+        request.get.mockImplementation(() => ({
+            set: jest.fn().mockReturnThis(),
+            query: jest.fn().mockReturnThis(),
+            end: jest.fn((callback) => callback(new Error('test error')))
+        }));
+
+        await expect(witClient.ask('test-message')).rejects.toThrow('Wit.ai request failed: test error');
     });
 });

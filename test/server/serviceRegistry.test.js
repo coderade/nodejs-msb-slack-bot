@@ -1,57 +1,37 @@
-require('should');
 const ServiceRegistry = require('../../server/serviceRegistry');
-const config = require('../../config');
 
 describe('ServiceRegistry', () => {
-    describe('new', () => {
-        it('should accept a timeout being passed in', (done) => {
-            const serviceRegistry = new ServiceRegistry(41);
-            serviceRegistry._timeout.should.equal(41);
-            done();
-        });
+    let serviceRegistry;
+    let logMock;
 
+    beforeEach(() => {
+        logMock = { info: jest.fn(), error: jest.fn() };
+        serviceRegistry = new ServiceRegistry(30, logMock);
     });
 
-    describe('add / get', () => {
-        it('should add a new intent to the registry and provide it via get', () => {
-            const serviceRegistry = new ServiceRegistry(30, config.log('test'));
-            serviceRegistry.add('test', '127.0.0.1', 1994, 'testToken');
-            const testIntent = serviceRegistry.get('test');
-            testIntent.intent.should.equal('test');
-            testIntent.ip.should.equal('127.0.0.1');
-            testIntent.port.should.equal(1994);
-        });
-
-
-        it('should update a service', () => {
-            const serviceRegistry = new ServiceRegistry(30, config.log('test'));
-            serviceRegistry.add('test', '127.0.0.1', 1994, 'testToken');
-            const testIntent1 = serviceRegistry.get('test');
-            serviceRegistry.add('test', '127.0.0.1', 1994, 'testToken');
-            const testIntent2 = serviceRegistry.get('test');
-
-            Object.keys(serviceRegistry._services).length.should.equal(1);
-
-            testIntent2.timestamp.should.be.greaterThanOrEqual(testIntent1.timestamp);
-        });
+    test('should add a service', () => {
+        serviceRegistry.add('test-intent', '127.0.0.1', '3000', 'test-token');
+        const service = serviceRegistry.get('test-intent');
+        expect(service).toEqual(expect.objectContaining({
+            intent: 'test-intent',
+            ip: '127.0.0.1',
+            port: '3000',
+            accessToken: 'test-token'
+        }));
     });
 
-    describe('remove', () => {
-        it('should remove a service from registry', () => {
-            const serviceRegistry = new ServiceRegistry(30, config.log('test'));
-            serviceRegistry.add('test', '127.0.0.1', 1994, 'testToken');
-            serviceRegistry.remove('test', '127.0.0.1', 1994, 'testToken');
-            const testIntent = serviceRegistry.get('test');
-            should.not.exist(testIntent);
-        });
+    test('should remove a service', () => {
+        serviceRegistry.add('test-intent', '127.0.0.1', '3000', 'test-token');
+        serviceRegistry.remove('test-intent', '127.0.0.1', '3000', 'test-token');
+        const service = serviceRegistry.get('test-intent');
+        expect(service).toBeNull();
     });
 
-    describe('cleanup', () => {
-        it('should remove expired services from registry', () => {
-            const serviceRegistry = new ServiceRegistry(-1, config.log('test'));
-            serviceRegistry.add('test', '127.0.0.1', 1994, 'testToken');
-            const testIntent = serviceRegistry.get('test');
-            should.not.exist(testIntent);
-        });
+    test('should clean up expired services', () => {
+        serviceRegistry.add('test-intent', '127.0.0.1', '3000', 'test-token');
+        jest.advanceTimersByTime(31000); // advance time by 31 seconds
+        serviceRegistry._cleanup();
+        const service = serviceRegistry.get('test-intent');
+        expect(service).toBeNull();
     });
 });

@@ -1,47 +1,47 @@
-require('should');
-
-const config = require('../../config');
 const request = require('supertest');
-const service = require('../../server/service')(config);
+const express = require('express');
+const service = require('../../server/service');
+const ServiceRegistry = require('../../server/serviceRegistry');
+const config = require('../../config');
 
-describe('The express service', () => {
-    describe('PUT /foo', () => {
-        it('should return HTTP 404', (done) => {
-            request(service)
-                .put('/foo')
-                .expect(404, done);
-        });
-    });
-});
+jest.mock('../../config', () => ({
+    botApiToken: 'test-bot-api-token',
+    serviceTimeout: 30,
+    log: () => ({ info: jest.fn(), error: jest.fn() })
+}));
 
-describe('PUT /service/:intent/:port', () => {
-    it('should return HTTP 200 with a valid result', (done) => {
-        request(service)
-            .put('/service/test/9999')
-            .set('X-BOT-API-TOKEN', config.botApiToken)
-            .set('X-BOT-SERVICE-TOKEN', 'something')
-            .expect(200)
-            .end((err, res) => {
-                if(err)
-                    return done(err);
+describe('Service', () => {
+    let app;
 
-                res.body.result.should.startWith('test at');
-                return done();
-            });
+    beforeEach(() => {
+        app = express();
+        app.use('/service', service(config));
     });
 
-    it('should return HTTP 403 with no API token provide', (done) => {
-        request(service)
-            .put('/service/test/9999')
-            .expect(403)
-            .end(done);
+    test('should register a service', async () => {
+        const response = await request(app)
+            .put('/service/test-intent/3000')
+            .set('X-BOT-API-TOKEN', 'test-bot-api-token')
+            .set('X-BOT-SERVICE-TOKEN', 'test-service-token');
+
+        expect(response.status).toBe(200);
+        expect(response.body.result).toBe('test-intent at ::ffff:127.0.0.1:3000');
     });
 
-    it('should return HTTP 400 with no service API token provide', (done) => {
-        request(service)
-            .put('/service/test/9999')
-            .set('X-BOT-API-TOKEN', config.botApiToken)
-            .expect(400)
-            .end(done);
+    test('should return 403 for invalid API token', async () => {
+        const response = await request(app)
+            .put('/service/test-intent/3000')
+            .set('X-BOT-API-TOKEN', 'invalid-api-token')
+            .set('X-BOT-SERVICE-TOKEN', 'test-service-token');
+
+        expect(response.status).toBe(403);
+    });
+
+    test('should return 400 for missing service token', async () => {
+        const response = await request(app)
+            .put('/service/test-intent/3000')
+            .set('X-BOT-API-TOKEN', 'test-bot-api-token');
+
+        expect(response.status).toBe(400);
     });
 });
