@@ -1,30 +1,28 @@
 const request = require('superagent');
 
-let handleWitResponse = (res) => {
-    return res.entities;
-};
+const handleWitResponse = (res) => res.entities;
 
 class WitClient {
     constructor(token) {
         this._token = token;
     }
 
-    ask(message, cb) {
-        request.get('https://api.wit.ai/message')
-            .set('Authorization', 'Bearer ' + this._token)
-            .query({v: '20171119'})
-            .query({q: message})
-            .end((err, res) => {
-                if (err)
-                    return cb(err);
-                if (res.statusCode !== 200)
-                    return cb(`Expected status 200 but got ${res.statusCode}`);
-                const witResponse = handleWitResponse(res.body);
+    async ask(message) {
+        try {
+            const res = await request.get('https://api.wit.ai/message')
+                .set('Authorization', `Bearer ${this._token}`)
+                .query({ v: '20171119' })
+                .query({ q: message });
 
-                return cb(null, witResponse);
-            });
+            if (res.statusCode !== 200) {
+                throw new Error(`Expected status 200 but got ${res.statusCode}`);
+            }
+
+            return handleWitResponse(res.body);
+        } catch (err) {
+            throw new Error(`Wit.ai request failed: ${err.message}`);
+        }
     }
-
 }
 
 module.exports = WitClient;
