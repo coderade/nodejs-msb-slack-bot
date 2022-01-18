@@ -4,159 +4,126 @@ Slack Bot application developed in Node.js.
 
 ![SlackBot](doc/images/slackbot.png)
 
-The project is set up with an express application, a bot using [Slack](https://slack.com/) and uses 
-the [Wit.ai](https://wit.ai/) service to works with natural language processing.
-
-This way, to use this project we will need to create a Slack channel and create a Bot user app and you will 
-also need to create a Wit.ai app to handle the bot questions intents.
+The project is set up with an express application, a bot using [Slack](https://slack.com/), and uses the [Wit.ai](https://wit.ai/) service for natural language processing.
 
 ## Status
 
-[ ![Codeship Status for coderade/nodejs-msb-slack-bot](https://app.codeship.com/projects/a16ebc70-0220-0136-a7cd-1e9c793cff7d/status?branch=master)](https://app.codeship.com/projects/280037) ![Not Maintained](https://img.shields.io/badge/Maintenance%20Level-Not%20Maintained-yellow.svg)
+[![Codeship Status for coderade/nodejs-msb-slack-bot](https://app.codeship.com/projects/a16ebc70-0220-0136-a7cd-1e9c793cff7d/status?branch=master)](https://app.codeship.com/projects/280037) ![Not Maintained](https://img.shields.io/badge/Maintenance%20Level-Not%20Maintained-yellow.svg)
 
-**This project has been developed in 2016 for the purpose of create a Slack bot application using most of Node.js and Es6, but is not maintained anymore. Some libraries are being updated using the [Dependabot](https://dependabot.com/) and [Snyk.io](https://snyk.io/) services, but no further tests are being done.**
+**This project was developed in 2016 to create a Slack bot application using Node.js and ES6. It is not maintained anymore. Some libraries are updated using [Dependabot](https://dependabot.com/) and [Snyk.io](https://snyk.io/) services, but no further tests are being done.**
 
-## Slack and Wit.ai settings
+## Prerequisites
 
+- Node.js (Recommended to use [NVM](https://github.com/creationix/nvm))
+- [Yarn](https://yarnpkg.com/en/) package manager
+- Slack account and a Slack workspace
+- Wit.ai account
 
-### Creating the Slack Bot user
+## Setting Up Slack and Wit.ai
 
-To use a bot on Slack for this project, I created a bot user. Creating a new bot user is currently not completely 
-intuitive, as there is no dedicated option on the settings page of Slack, but to create for this project you can read 
-the Slack official [doc](https://api.slack.com/bot-users).
+### Creating the Slack Bot User
 
-### Creating the Wit.ai app
+To use a bot on Slack for this project, create a bot user by following the Slack official [documentation](https://api.slack.com/bot-users).
 
-To create the Wit.ai app, you will need to log in the [Wit.ai](https://wit.ai/) site with your Github account.
+### Creating the Wit.ai App
 
-Then, we will need to create an app importing the data from the 
-[codebot-witai-settings](https://github.com/coderade/codebot-witai-settings) project as a zip file. 
-This wit.ai project contains all the needed intents to run this project.
+1. Log in to [Wit.ai](https://wit.ai/) with your GitHub account.
+2. Create an app by importing the data from the [codebot-witai-settings](https://github.com/coderade/codebot-witai-settings) project as a zip file. This project contains all the necessary intents to run this project.
 
-![](doc/images/wit-ai-intents.png)
+![Wit.ai Intents](doc/images/wit-ai-intents.png)
 
-### Project Intents
+## Project Intents
 
-This project actually has two intents: the [Time](server/intents/timeIntent.js) and 
-[Weather](server/intents/weatherIntent.js) intents. But, if you want you can create a new one following the 
-[intent.example.js](server/intents/intent.example.js) file.
+This project includes two intents: the [Time](server/intents/timeIntent.js) and [Weather](server/intents/weatherIntent.js) intents. You can create new intents by following the [intent.example.js](server/intents/intent.example.js) file.
 
-The are two services projects serving the intents for this project, so we need to execute these two project 
-services to make the Bot works properly:
+There are two services serving the intents for this project:
 
-* [Time Microservice](https://github.com/coderade/nodejs-time-microservice) ->
-service that returns the local time for a given location.
-* [Weather Microservice](https://github.com/coderade/nodejs-weather-microservice) -> service that returns 
-the weather for a given location.
+- [Time Microservice](https://github.com/coderade/nodejs-time-microservice): Returns the local time for a given location.
+- [Weather Microservice](https://github.com/coderade/nodejs-weather-microservice): Returns the weather for a given location.
 
-The services projects are available on your specific Github project links.
+These services announce themselves to the main application, which keeps track of the available services and routes the requests using a Service registry.
 
-These services know the endpoint address of this main application and announce itself
-to the intent that they want to serve on the project.
+## Installation
 
-This main application keep the track of the services available and route the requests using a Service registry.
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/your-repo/nodejs-msb-slack-bot.git
+    cd nodejs-msb-slack-bot
+    ```
 
-## How to use
+2. Install the dependencies:
+    ```bash
+    yarn install
+    ```
 
-Download and install the Node.Js using the [NVM](https://github.com/creationix/nvm).
+3. Copy the example environment file and update it with your credentials:
+    ```bash
+    cp .env-example .env
+    ```
 
-Install the [yarn](https://yarnpkg.com/en/) following the official
-[documentation](https://yarnpkg.com/lang/en/docs/install/#linux-tab).
+    Update the `.env` file with your Slack Bot Token, Wit.ai Token, and Bot API Token.
 
-Clone the repository and install the node modules.
+    ```plaintext
+    SLACK_BOT_TOKEN=your-slack-bot-token
+    WIT_TOKEN=your-wit-token
+    SLACK_LOG_LEVEL=verbose
+    BOT_API_TOKEN=your-bot-api-token
+    ```
 
-`yarn install`
+## Running the Bot Application
 
-After this, you can run the service.
-
-
-## Running the bot app
-
-To run this application, an API key for the
-[Wit.ai](https://wit.ai) app and the [Slack bot API](https://api.slack.com/bot-users) will be necessary.
-
-After you create your API key for each one of these services you will need to pass them as environment variables.
-
-This project uses the [dotenv](https://github.com/motdotla/dotenv) module to load the environment variables, so on the 
-root directory of the project use the following command to copy the env example file to the `.env` file that will be 
-used to load the environment variables.
+To run the application, ensure your environment variables are set, then start the application:
 
 ```bash
-cp .env-example .env
+node bin/start.js
 ```
 
-Then, you can edit the `SLACK_BOT_TOKEN`, the `BOT_API_TOKEN` and the `WIT_TOKEN` environment variables with your 
-generated keys, like the following:
+If everything is set up correctly, you should see output indicating the bot is connected and listening:
 
-```bash
-SLACK_BOT_TOKEN=0000-0000-0000-0000-0000
-WIT_TOKEN=0000-0000-0000-0000-0000
-BOT_API_TOKEN=0000-0000-0000-0000-0000
-```
-
-You can also pass the environment variables on your IDE. 
-I use the [WebStorm](https://www.jetbrains.com/webstorm) IDE to debug my Node.js applications, which you can follow this
-[tutorial](https://www.jetbrains.com/help/webstorm/run-debug-configuration-node-js.html) to set Node.js environment 
-variables in this IDE.
-
-Otherwise, if you don't want to use the `dot-env` module or a IDE you can pass the SLACK Bot and Wit.ai API keys 
-directly on your command line.
-
-To do this, on the root directory of the project run the following command
-passing your `SLACK_BOT_TOKEN`, the `BOT_API_TOKEN` and the `WIT_TOKEN` as env parameters:
-
-`WIT_TOKEN=<WIT_TOKEN> BOT_API_TOKEN=<YOUR BOT API KEY> SLACK_BOT_TOKEN=<YOUR SLACK BOT API KEY> node bin/start.js`
-
-If everything is ok, the console will show the following message:
-
-```bash
+```plaintext
 verbose: Attempting to connect via the RTM API
 verbose: Retrying url=https://slack.com/api/rtm.start
 verbose: rtm.start successful, attempting to open websocket URL
 Logged in as coderade-bot of team Slackbot Nodejs, but not connected to a channel yet
-CODEBOT is listening in 3000 in development mode.
+CODEBOT is listening on port 3000 in development mode.
 ```
-Now, you will see that your bot app will be online on your Slack channel and
-available to answer your questions!
 
+## Testing
 
-## Testing 
+This project uses [Mocha](https://mochajs.org/), [Should](https://shouldjs.github.io/), and [Istanbul](https://istanbul.js.org/) for testing.
 
-This project use the [Mocha](https://mochajs.org/), [Should](https://shouldjs.github.io/) and 
-[Istanbul](https://istanbul.js.org/) JS libraries to test the insfracture, the services and the Slack and Wit 
-clients.
-
-The tests are on the `test` directory. To run all the the tests, the lint and check your coverage, run the following 
-command:
+To run all tests, lint the code, and check coverage:
 
 ```bash
 npm test
 ```
 
-or directly on the root of the project use:
+Or run the following command directly:
 
 ```bash
 NODE_ENV=test eslint server bin && nyc mocha --recursive test --exit
-``` 
-
-## Deploying with [PM2](http://pm2.keymetrics.io/) 
-
-Download and install the pm2 using the npm.
-
-```bash
-npm install pm2 -g
 ```
 
-Create your config file copying the `ecosystem.config.example.js` to your root dir, using the following command:
+## Deployment with PM2
 
-```bash
-cp ecosystem.config.example.js ecosystem.config.js
-```  
+1. Install PM2 globally:
+    ```bash
+    npm install pm2 -g
+    ```
 
-Run the PM2 commands [deploy](http://pm2.keymetrics.io/docs/usage/deployment/) and [setup](http://pm2.keymetrics.io/docs/usage/deployment/) 
-to prepare your host for the deployments and then deploy
+2. Copy the example PM2 ecosystem configuration file:
+    ```bash
+    cp ecosystem.config.example.js ecosystem.config.js
+    ```
 
-```bash
-pm2 deploy production setup
-```  
+3. Set up your deployment configuration in `ecosystem.config.js` with your server details.
 
+4. Deploy the application using PM2:
+    ```bash
+    pm2 deploy production setup
+    pm2 deploy production
+    ```
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
