@@ -1,5 +1,5 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
-version: v1.14.1
+version: v1.25.0
 # ignores vulnerabilities until expiry date; change duration by modifying expiry date
 ignore:
   'npm:hoek:20180212':
@@ -59,3 +59,6 @@ patch:
         patched: '2020-05-01T08:59:00.474Z'
     - snyk > @snyk/snyk-cocoapods-plugin > @snyk/cocoapods-lockfile-parser > @snyk/dep-graph > graphlib > lodash:
         patched: '2020-05-01T08:59:00.474Z'
+  'npm:extend:20180424':
+    - superagent > extend:
+        patched: '2022-10-06T00:13:38.919Z'
